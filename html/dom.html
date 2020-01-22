@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+
+    <p>And if you go chasing
+        <span class="animal">rabbits</span></p>
+    <p>And you know you're going to fall</p>
+    <p>Tell 'em a <span class="character">hookah smoking
+            <span class="animal">caterpillar</span></span></p>
+    <p>Has given you the call</p>
+    <p style="text-align: center">
+        <img src="/img/cat.jpg" style="position: relative">
+    </p>
+    <style>
+        strong {
+            font-style: italic;
+            color: gray;
+        }
+    </style>
+    <p>Now <strong>strong text</strong> is italic and gray.</p>
+
+
+    <p id="para" style="color: purple">
+        Nice text
+    </p>
+
+    This text is displayed <strong>inline</strong>,
+    <strong style="display: block; border: 1px solid black">as a block</strong>
+    <br>
+    <strong style=" border: 1px solid black">not at all</strong>
+
+    <p><a href=".">Normal link</a></p>
+    <p><a href="." style="color: green; border: 1px solid black">Green link</a></p>
+
+    <p><span id="one"></span></p>
+    <p><span id="two"></span></p>
+
+
+    <p style="border: 3px solid red">
+        I'm boxed in
+    </p>
+
+    <br>
+    <!--
+    <p> <button onclick="replaceImages()">Replace</button></p>
+    <img src="/img/82113339_1508621665956205_8915371445203238912_o.jpg" alt="first cat">
+    <img src="/img/82113339_1508621665956205_8915371445203238912_o.jpg" alt="second cat">
+-->
+
+    <blockquote id="quote">
+        No book can ever be finished. While working on it we learn
+        just enough to find it immature the moment we turn away
+        from it.
+    </blockquote>
+
+    <p data-classified="secret">The launch code is 00000000.</p>
+    <p data-classified="unclassified">I have two feet.</p>
+
+
+</body>
+
+</html>
+
+<script>
+
+    let cat = document.querySelector("img");
+    let angle = Math.PI / 2;
+    function animate(time, lastTime) {
+        if (lastTime != null) {
+            angle += (time - lastTime) * 0.001;
+        }
+        cat.style.top = (Math.sin(angle) * 20) + "px";
+        cat.style.left = (Math.cos(angle) * 200) + "px";
+        requestAnimationFrame(newTime => animate(newTime, time));
+    }
+    requestAnimationFrame(animate);
+
+    function count(selector) {
+        return document.querySelectorAll(selector).length;
+    }
+
+
+    console.log(count("p")); // All <p> elements
+    // → 4
+    console.log(count(".animal")); // Class animal
+    // → 2
+    console.log(count("p .animal")); // Animal inside of <p>
+    // → 2
+    console.log(count("p > .animal")); // Direct child of <p>
+    // → 1
+
+
+
+    let para = document.getElementById("para");
+    console.log(para.style.color);
+    para.style.color = "magenta";
+
+    function time(name, action) {
+        let start = Date.now(); // Current time in milliseconds
+        action();
+        console.log(name, "took", Date.now() - start, "ms");
+    }
+    time("naive", () => {
+        let target = document.getElementById("one");
+        while (target.offsetWidth < 2000) {
+            target.appendChild(document.createTextNode("X"));
+        }
+    });
+    // → naive took 32 ms
+    time("clever", function () {
+        let target = document.getElementById("two");
+        target.appendChild(document.createTextNode("XXXXX"));
+        let total = Math.ceil(2000 / (target.offsetWidth / 5));
+        target.firstChild.nodeValue = "X".repeat(total);
+    });
+    // → clever took 1 ms
+
+    /*
+        let para = document.body.getElementsByTagName("p")[0];
+        console.log("clientheight: " + para.clientHeight);
+        console.log("clientwidth: " + para.clientWidth);
+    */
+    /*
+        let paras = document.body.getElementsByTagName("p");
+        for (let para of Array.from(paras)) {
+            if (para.getAttribute("data-classified") == "secret") {
+                para.remove();
+            }
+        }
+    */
+    /*
+        function elt(type, ...children) {
+            let node = document.createElement(type);
+            for (let child of children) {
+                if (typeof child != "string") node.appendChild(child);
+                else node.appendChild(document.createTextNode(child));
+            }
+            return node;
+        }
+    
+        document.getElementById("quote").appendChild(
+            elt("footer", //1
+                "-",        //2
+                    elt("strong", "Karl Popper"),   //3
+                ", preface to the second editon of ", //4
+                elt("em", "The Open Society and Its Enemies"), //5
+                ", 1950"));     //6
+    
+    */
+    function replaceImages() {
+        let images = document.body.getElementsByTagName("img");
+        for (let i = images.length - 1; i >= 0; i--) {
+            let image = images[i];
+            if (image.alt) {
+                let text = document.createTextNode(image.alt);
+                image.parentNode.replaceChild(text, image);
+            }
+
+        }
+    }
+
+
+
+
+
+    /*
+    let paragraphs = document.body.getElementsByTagName("p");
+    document.body.insertBefore(paragraphs[2], paragraphs[0]);
+    */
+
+    /*
+        let link = document.body.getElementsByTagName("a")[0];
+        console.log(link.href);
+    */
+    /*
+    let pic = document.getElementById("gertrude");
+    console.log(gertrude.src);
+    */
+    /*
+    function talksAbout(node, string) {
+        if (node.nodeType == Node.ELEMENT_NODE) {
+            for (let i = 0; i < node.childNodes.length; i++) {
+
+                if (node.childNodes[i].nodeValue != null){
+                    console.log("nodeValue: " +  node.childNodes[i].nodeValue);
+                }
+
+                if (talksAbout(node.childNodes[i], string)) {
+                    return true;
+                }
+            }
+            return false;
+        } else if (node.nodeType == Node.TEXT_NODE) {
+            return node.nodeValue.indexOf(string) > -1;
+        }
+    }
+    console.log(talksAbout(document.body, "book"));
+
+    */
+</script>
