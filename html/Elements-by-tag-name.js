@@ -3,7 +3,19 @@
 $(document).ready(function () {
 
 
+    let e1 = document.body.childNodes;
+    let e2 = document.getElementsByTagName("td");
+    let e3 = document.querySelectorAll("td");
 
+    let _str = Object.prototype.toString;
+
+    console.log(_str.call(e1));
+    console.log(_str.call(e2));
+    console.log(_str.call(e3));
+
+
+
+/*
     function myGetElementsByTagName(node, str) {
 
         if (node.nodeType == Node.ELEMENT_NODE) {
@@ -24,6 +36,6 @@ $(document).ready(function () {
 
     //document.body.nodeType == Node.ELEMENT_NODE
 
-
+*/
 
 });
